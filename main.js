@@ -168,3 +168,4 @@ filterButtons.forEach(button => {
     button.classList.add('active-filter');
   });
 });
+
