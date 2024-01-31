@@ -404,3 +404,33 @@ header.shadow.logo {
             
         }
     }
+
+    /*ADDED*/
+
+    .form-container {
+        max-width: 400px;
+        margin: auto;
+        text-align: center;
+        padding: 20px;
+        background: #f4f4f4;
+        border-radius: 8px;
+        margin-top: 20px;
+        display: none;
+    }
+
+    .form-container form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-container label {
+        font-weight: bold;
+    }
+
+    .toggle-form {
+        margin-top: 10px;
+        cursor: pointer;
+        color: #2157ad;
+        text-decoration: underline;
+    }
