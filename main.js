@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', async () => {
   // Header background change
   const header = document.querySelector('header');
@@ -10,19 +8,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const filterButtons = document.querySelectorAll('.filter-item');
   const postContainer = document.querySelector('#post-container');
+  const titleInput = document.getElementById('title-input');
+  const dateInput = document.getElementById('date-input');
+  const searchButton = document.getElementById('search-button');
 
-  async function fetchAndDisplayPosts(category = 'all') {
+  async function fetchAndDisplayPosts(category = 'all', title = '', date = '') {
     try {
-      // Fetch all posts if the category is 'all', otherwise fetch posts based on the selected category
-      const url = category === 'all' ? '/posts' : `/posts?category=${category}`;
+      
+
+      let url = '/posts';
+
+      if (category !== 'all') {
+        url += `?category=${category}`;
+      }
+
+      if (title) {
+        url += `${url.includes('?') ? '&' : '?'}title=${encodeURIComponent(title)}`;
+      }
+
+      if (date) {
+        
+        url += `${url.includes('?') ? '&' : '?'}date=${date}`;
+      }
+
       const response = await fetch(url);
       const posts = await response.json();
+      
+
       postContainer.innerHTML = generatePosts(posts);
     } catch (error) {
-      console.error(`Error fetching ${category} posts:`, error);
+      console.error('Error fetching posts:', error);
     }
   }
-  
 
   try {
     // Fetch and display all posts initially
@@ -39,10 +56,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         item.classList.add('active-filter');
       });
     });
+
+    searchButton.addEventListener('click', async () => {
+      const title = titleInput.value.trim();
+      const date = dateInput.value;
+
+      // Fetch and display posts based on search parameters
+      await fetchAndDisplayPosts('all', title, date);
+    });
   } catch (error) {
     console.error('An error occurred during initialization:', error);
   }
 });
+
 
 function generatePost(post) {
   return `
