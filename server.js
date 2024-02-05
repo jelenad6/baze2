@@ -124,7 +124,7 @@ Post.countDocuments({})
       return Post.insertMany(samplePosts);
     }
   })
-  .then(() => console.log('Sample posts inserted successfully'))
+  //.then(() => console.log('Sample posts inserted successfully'))
   .catch((err) => console.error('Error inserting sample posts:', err));
 
 
@@ -145,21 +145,34 @@ app.get('/', (req, res) => {
 
 app.get('/posts', async (req, res) => {
   try {
-    const { category } = req.query;
-    console.log('Fetching posts for category:', category);
+    const { category, title, date } = req.query;
+    const query = {};
 
-    const query = category ? { category } : {};
-    console.log('Query:', query);
+    // Add category to the query if provided
+    if (category) {
+      query.category = category;
+    }
+
+    // Add title to the query if provided
+    if (title) {
+      const titleRegex = new RegExp(title, 'i'); // Construct regex pattern with 'i' flag for case-insensitive search
+      query.title = titleRegex; // Use regex pattern for case-insensitive search
+    }
+
+    // Add date to the query if provided
+    if (date) {
+      query.date = date;
+    }
+    
 
     const posts = await Post.find(query);
-    console.log('Found posts:', posts);
-
     res.json(posts);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 
 app.post('/login', async (req, res) => {
@@ -179,7 +192,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/posts', async (req, res) => {
+/*app.get('/posts', async (req, res) => {
   try {
     const { category } = req.query;
     const query = category ? { category } : {};
@@ -190,7 +203,7 @@ app.get('/posts', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
+*/
 
 // Serve the register.html file when the /signup route is accessed
 app.get('/signup', (req, res) => {
