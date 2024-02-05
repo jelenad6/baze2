@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     searchButton.addEventListener('click', async () => {
       const title = titleInput.value.trim();
-      const date = dateInput.value;
+      const date = dateInput.value.trim();
 
       // Fetch and display posts based on search parameters
       await fetchAndDisplayPosts('all', title, date);
