@@ -125,18 +125,19 @@ header.shadow.logo {
     column-gap: 1.5rem;
     margin-top: 2rem !important;
 }
-.filter-item {
+.filter-item, .search-btn {
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
 }
 
-.active-filter {
+.active-filter, .search-btn {
     background: var(--second-color);
     color: var(--bg-color);
     padding: 4px 10px;
     border-radius: 4px;
 }
+
 
 .post {
     display: grid;
