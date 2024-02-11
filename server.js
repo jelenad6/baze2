@@ -18,6 +18,8 @@ const postSchema = new mongoose.Schema({
   description: String,
   authorProfile: String,
   authorName: String,
+  likes: { type: Number, default: 0 },
+  dislikes: { type: Number, default: 0 },
 });
 
 const Post = mongoose.model('Post', postSchema);
@@ -189,6 +191,40 @@ app.post('/login', async (req, res) => {
     res.status(200).send('Login successful');
   } catch (error) {
     console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Like a post
+app.post('/posts/like/:postId', async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    // Find the post in the database and update the likes count
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { $inc: { likes: 1 } }, // Increment the likes count by 1
+      { new: true }
+    );
+    res.json(updatedPost);
+  } catch (error) {
+    console.error('Error liking post:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Dislike a post
+app.post('/posts/dislike/:postId', async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    // Find the post in the database and update the dislikes count
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { $inc: { dislikes: 1 } }, // Increment the dislikes count by 1
+      { new: true }
+    );
+    res.json(updatedPost);
+  } catch (error) {
+    console.error('Error disliking post:', error);
     res.status(500).send('Internal Server Error');
   }
 });
