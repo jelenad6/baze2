@@ -28,7 +28,7 @@ const samplePosts = [
       image: "./assets/post-1.jpg",
       category: "Mobile",
       title: "How To Create Best UX Design With Adobe",
-      date: "22 Jun 2023",
+      date: "22 Jun, 2023",
       description: "Unlock the secrets of creating the best user experiences with Adobe. Learn valuable tips and techniques for designing mobile interfaces that captivate users.",
       authorProfile: "./assets/profile-1.jpg",
       authorName: "Marques Brown",
@@ -38,7 +38,7 @@ const samplePosts = [
       image: "./assets/post-2.jpg",
       category: "Design",
       title: "Crafting Eye-Catching Designs With Adobe Creative Suite",
-      date: "15 Mar 2023",
+      date: "15 Mar, 2023",
       description: "Discover the art of crafting visually stunning designs using Adobe Creative Suite. Dive into the world of graphic design and unleash your creativity.",
       authorProfile: "./assets/profile-2.jpg",
       authorName: "Olivia Smith",
@@ -48,7 +48,7 @@ const samplePosts = [
       image: "./assets/post-3.jpg",
       category: "Tech",
       title: "The Future of Technology: Trends Shaping 2023",
-      date: "28 May 2023",
+      date: "28 May, 2023",
       description: "Explore the latest technological trends that are shaping the future in 2023. From AI to blockchain, stay ahead of the curve in the rapidly evolving tech landscape.",
       authorProfile: "./assets/profile-3.jpg",
       authorName: "Mary Johnson",
@@ -58,7 +58,7 @@ const samplePosts = [
       image: "./assets/post-4.jpg",
       category: "Mobile",
       title: "Designing Mobile Apps for a Seamless User Experience",
-      date: "2 Aug 2023",
+      date: "2 Aug, 2023",
       description: "Learn the essentials of designing mobile apps that provide a seamless user experience. Dive into the principles of mobile UI/UX and elevate your app design skills.",
       authorProfile: "./assets/profile-1.jpg",
       authorName: "Marques Brown",
@@ -68,7 +68,7 @@ const samplePosts = [
       image: "./assets/post-5.jpg",
       category: "Design",
       title: "Mastering Color Theory in Graphic Design",
-      date: "11 Dec 2023",
+      date: "11 Dec, 2023",
       description: "Unlock the power of color in graphic design. Master color theory and learn how to use it effectively to create visually appealing and harmonious designs.",
       authorProfile: "./assets/profile-2.jpg",
       authorName: "Olivia Smith",
@@ -78,7 +78,7 @@ const samplePosts = [
       image: "./assets/post-6.jpg",
       category: "Tech",
       title: "Demystifying Quantum Computing: A Beginner's Guide",
-      date: "15 Mar 2023",
+      date: "15 Mar, 2023",
       description: "Embark on a journey to understand the fundamentals of quantum computing. This beginner's guide will unravel the mysteries behind this revolutionary technology.",
       authorProfile: "./assets/profile-3.jpg",
       authorName: "Mary Johnson",
@@ -88,7 +88,7 @@ const samplePosts = [
       image: "./assets/post-7.jpg",
       category: "Mobile",
       title: "Optimizing Mobile Websites for Peak Performance",
-      date: "28 May 2023",
+      date: "28 May, 2023",
       description: "Discover the best practices for optimizing mobile websites to achieve peak performance. Boost your website's speed and enhance the overall user experience.",
       authorProfile: "./assets/profile-1.jpg",
       authorName: "Marques Brown",
@@ -98,7 +98,7 @@ const samplePosts = [
       image: "./assets/post-8.jpg",
       category: "Design",
       title: "The Art of Minimalism in Graphic Design",
-      date: "7 Nov 2023",
+      date: "7 Nov, 2023",
       description: "Explore the beauty of minimalism in graphic design. Learn how to create impactful and elegant designs by embracing simplicity and essential elements.",
       authorProfile: "./assets/profile-2.jpg",
       authorName: "Olivia Smith",
@@ -108,7 +108,7 @@ const samplePosts = [
       image: "./assets/post-9.jpg",
       category: "Tech",
       title: "The Rise of Augmented Reality: A Transformative Journey",
-      date: "6 Oct 2023",
+      date: "6 Oct, 2023",
       description: "Dive into the transformative journey of augmented reality. Explore its rising impact on various industries and envision the future possibilities it brings.",
       authorProfile: "./assets/profile-3.jpg",
       authorName: "Mary Johnson",
@@ -147,6 +147,7 @@ app.get('/posts', async (req, res) => {
   try {
     const { category, title, date } = req.query;
     const query = {};
+    console.log('Received query parameters:', category, title, date);
 
     // Add category to the query if provided
     if (category) {
@@ -192,18 +193,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-/*app.get('/posts', async (req, res) => {
-  try {
-    const { category } = req.query;
-    const query = category ? { category } : {};
-    const posts = await Post.find(query);
-    res.json(posts);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-*/
 
 // Serve the register.html file when the /signup route is accessed
 app.get('/signup', (req, res) => {
