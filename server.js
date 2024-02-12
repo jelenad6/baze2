@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3000;
 
+
+
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/newspaperDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -133,8 +135,10 @@ Post.countDocuments({})
 const User = mongoose.model('User', {
   username: String,
   password: String,
-  role: String,
+  role: { type: String, enum: ['admin', 'user', 'journalist', 'editor'] }
 });
+
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -149,7 +153,6 @@ app.get('/posts', async (req, res) => {
   try {
     const { category, title, date } = req.query;
     const query = {};
-    console.log('Received query parameters:', category, title, date);
 
     // Add category to the query if provided
     if (category) {
@@ -176,24 +179,138 @@ app.get('/posts', async (req, res) => {
   }
 });
 
+// Handle user registration
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Check if the user already exists
+    console.log('Received registration request:', { username, password }); 
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).send('User already exists');
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user with role 'user'
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      role: 'user' // Set default role to 'user'
+    });
+
+    // Save the new user to the database
+    await newUser.save();
+
+    res.status(201).send('User registered successfully');
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Handle admin registration of journalists and editors
+app.post('/admin/register', async (req, res) => {
+  const { username, password, role } = req.body;
+
+  try {
+    // Check if the user already exists
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).send('User already exists');
+    }
+
+    // Ensure the role is either 'journalist' or 'editor'
+    if (role !== 'journalist' && role !== 'editor') {
+      return res.status(400).send('Invalid role');
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user with the specified role
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      role
+    });
+
+    // Save the new user to the database
+    await newUser.save();
+
+    res.status(201).send('User registered successfully');
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Fetch list of users registered by the admin
+
+app.get('/admin/userList', async (req, res) => {
+  try {
+    const userList = await User.find({ role: { $in: ['journalist', 'editor'] }});
+    res.json(userList);
+  } catch (error) {
+    console.error('Error fetching user list:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.delete('/admin/deleteUser/:userId', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    // Find the user by ID and delete it
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (deletedUser) {
+      console.log('User deleted successfully');
+      res.status(200).send('User deleted successfully');
+    } else {
+      console.error('User not found');
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
+  if (typeof username !== 'string' || typeof password !== 'string') {
+    return res.status(400).json({ error: 'Invalid username or password' });
+  }
+
   try {
     const user = await User.findOne({ username });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).send('Invalid username or password');
+      return res.status(401).json({ error: 'Invalid username or password' });
     }
 
-    res.status(200).send('Login successful');
+    const role = user.role;
+
+    if (role === 'admin') {
+      return res.status(200).json({ message: 'Login successful', role: 'admin' });
+    } else {
+      return res.status(200).json({ message: 'Login successful', role: 'user' });
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
 
 // Like a post
 app.post('/posts/like/:postId', async (req, res) => {
@@ -230,8 +347,9 @@ app.post('/posts/dislike/:postId', async (req, res) => {
 });
 
 
+
 // Serve the register.html file when the /signup route is accessed
-app.get('/signup', (req, res) => {
+app.get('/register', (req, res) => {
   res.sendFile(__dirname + '/register.html');
 });
 
