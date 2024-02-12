@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+ :root {
+    --container-color: #1a1e21;
+    --second-color: #2157ad;
+    --text-color: #172317;
+    --bg-color: #fff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+}
+
+.dashboard {
+    display: flex;
+}
+
+.registration-section, .user-list-section {
+    width: 50%;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: var(--second-color);
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: var(--second-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #183b77; /* Slightly darker shade on hover */
+}
+
+#userList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#userList li {
+    margin-bottom: 10px;
+    padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+#userList li button {
+    background-color: #f44336; /* Red color for delete button */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#userList li button:hover {
+    background-color: #cc0000; /* Darker shade of red on hover */
+}
+
+    </style>
+</head>
+
+<body>
+    <h1>Admin Dashboard</h1>
+    <div class="dashboard">
+        <div class="registration-section">
+            <h2>Register User</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <label for="role">Role:</label>
+            <select id="role">
+                <option value="journalist">Journalist</option>
+                <option value="editor">Editor</option>
+            </select>
+
+            <button id="registerUserBtn">Register User</button>
+        </div>
+        <div class="user-list-section">
+            <h2>User List</h2>
+            <ul id="userList"></ul>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>

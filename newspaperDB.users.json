@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "65b28d8914334f4e597a0239"
+  },
+  "username": "jeca",
+  "password": "$2b$10$ONqMmgZZjCBmq7KBlpgfTeeoSAEkzuz6/kTPejId7cDKfLz45LThm",
+  "__v": 0,
+  "role": "admin"
+},
+{
+  "_id": {
+    "$oid": "65ca7b1d9ca905a4ee58ef0a"
+  },
+  "username": "jelena",
+  "password": "$2b$10$dA19jxJZIes6n0ZaRQC7rOpISJCn.RMXW.q4sS0N0rKaiPaqEC4lK",
+  "role": "user",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ca8d475a32abf180de41e1"
+  },
+  "username": "jelenad",
+  "password": "$2b$10$kPWw.Qy.iwkkqRRKQmz5Ou9UEfciCCFHgqNzcEBmmbyJr5qWvKYL2",
+  "role": "journalist",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65ca954566f0f216630486ac"
+  },
+  "username": "jecad",
+  "password": "$2b$10$YC311ERYfXXy3eBuvedNhutfKWyefzJqdXHdDIMQZWMAXs2oq4a6C",
+  "role": "editor",
+  "__v": 0
+}]
