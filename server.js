@@ -22,6 +22,7 @@ const postSchema = new mongoose.Schema({
   authorName: String,
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
+  status: { type: String, enum: ['draft', 'approved', 'rejected', 'published'], default: 'draft' },
 });
 
 const Post = mongoose.model('Post', postSchema);
@@ -36,6 +37,7 @@ const samplePosts = [
       description: "Unlock the secrets of creating the best user experiences with Adobe. Learn valuable tips and techniques for designing mobile interfaces that captivate users.",
       authorProfile: "./assets/profile-1.jpg",
       authorName: "Marques Brown",
+      status: "published",
     },
     // Post 2
     {
@@ -46,6 +48,7 @@ const samplePosts = [
       description: "Discover the art of crafting visually stunning designs using Adobe Creative Suite. Dive into the world of graphic design and unleash your creativity.",
       authorProfile: "./assets/profile-2.jpg",
       authorName: "Olivia Smith",
+      status: "published",
     },
     // Post 3
     {
@@ -56,6 +59,7 @@ const samplePosts = [
       description: "Explore the latest technological trends that are shaping the future in 2023. From AI to blockchain, stay ahead of the curve in the rapidly evolving tech landscape.",
       authorProfile: "./assets/profile-3.jpg",
       authorName: "Mary Johnson",
+      status: "published",
     },
     // Post 4
     {
@@ -66,6 +70,7 @@ const samplePosts = [
       description: "Learn the essentials of designing mobile apps that provide a seamless user experience. Dive into the principles of mobile UI/UX and elevate your app design skills.",
       authorProfile: "./assets/profile-1.jpg",
       authorName: "Marques Brown",
+      status: "published",
     },
     // Post 5
     {
@@ -76,6 +81,7 @@ const samplePosts = [
       description: "Unlock the power of color in graphic design. Master color theory and learn how to use it effectively to create visually appealing and harmonious designs.",
       authorProfile: "./assets/profile-2.jpg",
       authorName: "Olivia Smith",
+      status: "published",
     },
     // Post 6
     {
@@ -86,6 +92,7 @@ const samplePosts = [
       description: "Embark on a journey to understand the fundamentals of quantum computing. This beginner's guide will unravel the mysteries behind this revolutionary technology.",
       authorProfile: "./assets/profile-3.jpg",
       authorName: "Mary Johnson",
+      status: "published",
     },
     // Post 7
     {
@@ -96,6 +103,7 @@ const samplePosts = [
       description: "Discover the best practices for optimizing mobile websites to achieve peak performance. Boost your website's speed and enhance the overall user experience.",
       authorProfile: "./assets/profile-1.jpg",
       authorName: "Marques Brown",
+      status: "published",
     },
     // Post 8
     {
@@ -106,6 +114,7 @@ const samplePosts = [
       description: "Explore the beauty of minimalism in graphic design. Learn how to create impactful and elegant designs by embracing simplicity and essential elements.",
       authorProfile: "./assets/profile-2.jpg",
       authorName: "Olivia Smith",
+      status: "published",
     },
     // Post 9
     {
@@ -116,6 +125,7 @@ const samplePosts = [
       description: "Dive into the transformative journey of augmented reality. Explore its rising impact on various industries and envision the future possibilities it brings.",
       authorProfile: "./assets/profile-3.jpg",
       authorName: "Mary Johnson",
+      status: "published",
     },
   ];
   
@@ -169,15 +179,18 @@ app.get('/posts', async (req, res) => {
     if (date) {
       query.date = date;
     }
-    
 
-    const posts = await Post.find(query);
-    res.json(posts);
+    // Fetch only published posts
+    const publishedPosts = await Post.find({ status: 'published' });
+
+    res.json(publishedPosts);
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 });
+
+
 
 // Handle user registration
 app.post('/register', async (req, res) => {
@@ -282,7 +295,7 @@ app.delete('/admin/deleteUser/:userId', async (req, res) => {
 });
 
 
-
+// Handle user login
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -298,18 +311,80 @@ app.post('/login', async (req, res) => {
     }
 
     const role = user.role;
+    console.log('User role:', role); // Add this line to log the user's role
 
-    if (role === 'admin') {
-      return res.status(200).json({ message: 'Login successful', role: 'admin' });
-    } else {
-      return res.status(200).json({ message: 'Login successful', role: 'user' });
-    }
+    return res.status(200).json({ message: 'Login successful', role }); // Send role in the response
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
+
+// DRAFTS / EDITOR / JOURNALISTS
+app.post('/drafts', async (req, res) => {
+  try {
+    const { image, category, title, date, description, authorProfile, authorName } = req.body;
+
+    // Create a new draft post
+    const draftPost = new Post({
+      image,
+      category,
+      title,
+      date,
+      description,
+      authorProfile,
+      authorName,
+      status: 'draft' // Set the status to 'draft'
+    });
+
+    // Save the draft to the database
+    await draftPost.save();
+
+    res.status(201).json({ message: 'Draft created successfully', postId: draftPost._id });
+  } catch (error) {
+    console.error('Error creating draft:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Modify the existing endpoint to allow updating drafts
+app.put('/drafts/:postId', async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const { status, image, category, title, date, description, authorProfile, authorName } = req.body;
+
+    // Update draft status if provided
+    if (status) {
+      // Update draft status directly
+      const updatedPost = await Post.findByIdAndUpdate(postId, { status }, { new: true });
+      if (!updatedPost) {
+        return res.status(404).send('Draft not found');
+      }
+    }
+
+    // If status is not provided or status is 'updated', update draft fields
+    const updatedPost = await Post.findByIdAndUpdate(postId, {
+      image,
+      category,
+      title,
+      date,
+      description,
+      authorProfile,
+      authorName, 
+      date
+    }, { new: true });
+
+    if (updatedPost) {
+      res.status(200).json({ message: 'Draft updated successfully', post: updatedPost });
+    } else {
+      res.status(404).send('Draft not found');
+    }
+  } catch (error) {
+    console.error('Error updating draft:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 
 // Like a post
@@ -348,6 +423,8 @@ app.post('/posts/dislike/:postId', async (req, res) => {
 
 
 
+
+
 // Serve the register.html file when the /signup route is accessed
 app.get('/register', (req, res) => {
   res.sendFile(__dirname + '/register.html');
@@ -356,6 +433,20 @@ app.get('/register', (req, res) => {
 // Serve the login.html file when the /login route is accessed
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/login.html');
+
+  // Endpoint to fetch all drafts
+app.get('/drafts', async (req, res) => {
+  try {
+    // Find all draft posts
+    const drafts = await Post.find({ status: 'draft' });
+
+    res.status(200).json(drafts);
+  } catch (error) {
+    console.error('Error fetching drafts:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 });
 
 app.listen(PORT, () => {
