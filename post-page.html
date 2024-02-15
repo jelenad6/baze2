@@ -9,6 +9,53 @@
         <title>New Post Page</title>
         <link rel="stylesheet" href="style.css">
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <style>
+            /* Style for comments form */
+#comment-form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#comment-form input[type="text"],
+#comment-form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#comment-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#comment-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for comments list */
+#comments-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#comments-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+        </style>
 
 </head>
 
@@ -17,7 +64,7 @@
         <header>
                 <div class="nav container">
                <a href="#index.html" class="logo">Ve<span>nom</span></a> 
-               <a href="#" class="login">Login</a>
+               <a href="register.html" class="login">Sign Up</a>
         </div>
         </header>
         <!-- Post Content -->
@@ -31,14 +78,30 @@
 
        <section class="post-content post-container">
 
-        <h2 class="sub-heading"> Create Best UX Design</h2>
-        <p class="post-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati eaque a nulla necessitatibus enim maxime? Aperiam, praesentium? Inventore odio obcaecati et minus veniam, sapiente, cumque perferendis officiis, fugit recusandae consequatur sunt aspernatur harum! Vel eligendi ad fugit sequi iusto perferendis deleniti eius harum et consectetur?</p>
-        <p class="post-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati eaque a nulla necessitatibus enim maxime? Aperiam, praesentium? Inventore odio obcaecati et minus veniam, sapiente, cumque perferendis officiis, fugit recusandae consequatur sunt aspernatur harum! Vel eligendi ad fugit sequi iusto perferendis deleniti eius harum et consectetur?</p>
-        <h2 class="sub-heading"> Create Best UX Design</h2>
-        <p class="post-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati eaque a nulla necessitatibus enim maxime? Aperiam, praesentium? Inventore odio obcaecati et minus veniam, sapiente, cumque perferendis officiis, fugit recusandae consequatur sunt aspernatur harum! Vel eligendi ad fugit sequi iusto perferendis deleniti eius harum et consectetur?</p>
-        <p class="post-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Obcaecati eaque a nulla necessitatibus enim maxime? Aperiam, praesentium? Inventore odio obcaecati et minus veniam, sapiente, cumque perferendis officiis, fugit recusandae consequatur sunt aspernatur harum! Vel eligendi ad fugit sequi iusto perferendis deleniti eius harum et consectetur?</p>
+        <h2 class="sub-heading">How to Create Best UX Design with Adobe</h2>
+        <p class="post-text">Creating the best user experience (UX) design with Adobe involves understanding the principles of user-centered design and leveraging Adobe's powerful tools. Start by conducting thorough research to gain insights into your users' needs and preferences. Use Adobe XD to prototype and iterate on your designs, allowing for quick feedback and refinement.</p>
+        <p class="post-text">Focus on creating intuitive navigation, clear layouts, and engaging interactions to enhance the usability of your product. Adobe Illustrator and Photoshop can be used to design visually appealing interfaces, while Adobe After Effects enables you to add interactive animations for a dynamic user experience.</p>
+        <h2 class="sub-heading">Key Tips for UX Design with Adobe</h2>
+        <p class="post-text">1. Collaborate closely with stakeholders, developers, and other team members throughout the design process.</p>
+        <p class="post-text">2. Utilize Adobe Creative Cloud libraries to maintain consistency across your designs and easily share assets with your team.</p>
+        
 
        </section>
+<section>
+       <!-- Comments Form -->
+<form id="comment-form" class="post-container">
+    <h2 class="sub-heading">Leave a Comment</h2>
+    <input type="text" id="username" placeholder="Your Username" required>
+    <textarea id="comment" placeholder="Write your comment here" required></textarea>
+    <button type="submit" id="submit-comment">Submit</button>
+</form>
+</section>
+
+<!-- Comments Section -->
+<div id="comments-section" class="post-container">
+    <h2 class="sub-heading">Comments</h2>
+    <ul id="comments-list"></ul>
+</div>
 
        <!--Share-->
        <div class="share post-container">
@@ -68,7 +131,7 @@
   src="https://code.jquery.com/jquery-3.7.1.js"
   integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
   crossorigin="anonymous"></script>
-        <script src="main.js"></script>
+        <script src="post.js"></script>
 
 </body>
 </html>
