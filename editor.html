@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Dashboard</title>
+</head>
+<style>
+    :root {
+    --container-color: #1a1e21;
+    --second-color: #2157ad;
+    --text-color: #172317;
+    --bg-color: #fff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px; /* Add padding for better spacing */
+}
+
+h1, h2 {
+    color: var(--second-color);
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-between; /* Align sections to start and end */
+}
+
+.drafts-section, .approval-section {
+    flex: 1; /* Allow sections to grow to fill available space */
+    padding: 20px;
+}
+
+.approval-section {
+    margin-left: 20px; /* Add margin between sections */
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.publish-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.reject-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.edit-btn {
+    background-color: var(--second-color);
+    color: white;
+}
+/* Style for home button */
+#homeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: var(--second-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 50px; /* Fixed width */
+    text-align: center; /* Center the text */
+        }
+
+        #homeButton:hover {
+            background-color: #183b77;
+            /* Slightly darker shade on hover */
+        }
+
+</style>
+<body>
+
+      <!-- Home button -->
+      <button id="homeButton" onclick="goToHome()">Home</button>
+    <h1>Editor Dashboard</h1>
+    <div class="dashboard">
+        <div class="drafts-section">
+            <h2>Drafts</h2>
+            <ul id="draftList"></ul>
+        </div>
+      
+            </form>
+           
+        </div>
+    </div>
+    <script src="editor.js"></script>
+    <script>
+        function goToHome() {
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

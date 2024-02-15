@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create New Post</title>
+    <style>
+      :root {
+        --container-color: #1a1e21;
+        --second-color: #2157ad;
+        --text-color: #172317;
+        --bg-color: #fff;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding-left: 150px;
+        padding-right: 150px;
+        padding-top: 100px;
+      }
+
+      h1 {
+        color: var(--second-color);
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      select,
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      button[type="submit"] {
+        background-color: var(--second-color);
+        color: var(--bg-color);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #183b77;
+      }
+
+       /* Style for home button */
+       #homeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: var(--second-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 50px; /* Fixed width */
+    text-align: center; /* Center the text */
+        }
+
+        #homeButton:hover {
+            background-color: #183b77;
+            /* Slightly darker shade on hover */
+        }
+    </style>
+  </head>
+  <body>
+      <!-- Home button -->
+      <button id="homeButton" onclick="goToHome()">Home</button>
+
+    <h1>Create New Post</h1>
+    <form id="postForm">
+      <label for="image">Image:</label>
+      <select id="image">
+        <option value="post-1.jpg">Post 1</option>
+        <option value="post-2.jpg">Post 2</option>
+        <option value="post-3.jpg">Post 3</option>
+        <option value="post-4.jpg">Post 4</option>
+        <option value="post-5.jpg">Post 5</option>
+        <option value="post-6.jpg">Post 6</option>
+        <option value="post-7.jpg">Post 7</option>
+        <option value="post-8.jpg">Post 8</option>
+        <option value="post-9.jpg">Post 9</option>
+        <!-- Add options for other posts -->
+      </select>
+      <label for="category">Category:</label>
+      <select id="category" required>
+        <option value="Mobile">Mobile</option>
+        <option value="Design">Design</option>
+        <option value="Tech">Tech</option>
+      </select>
+      <label for="title">Title:</label>
+      <input type="text" id="title" required />
+      <label for="description">Description:</label>
+      <textarea id="description" rows="4" required></textarea>
+      <label for="authorProfile">Author Profile:</label>
+      <select id="authorProfile">
+        <option value="profile-1.jpg">Profile 1</option>
+        <option value="profile-2.jpg">Profile 2</option>
+        <option value="profile-3.jpg">Profile 3</option>
+        <!-- Add options for other profiles -->
+      </select>
+      <label for="authorName">Author Name:</label>
+      <select id="authorName" required>
+        <!-- Journalists' names will be dynamically populated here -->
+      </select>
+
+      <label for="date">Date:</label>
+      <input type="text" id="date" placeholder="D MM, YYYY" required />
+
+      <button type="submit">Save Draft</button>
+    </form>
+
+    <script src="journalist.js"></script>
+    <script>
+        function goToHome() {
+            window.location.href = '/index.html';
+        }
+    </script>
+  </body>
+</html>
