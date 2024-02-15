@@ -1,133 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <style> 
-    :root {
-    --container-color: #1a1e21;
-    --second-color: #2157ad;
-    --text-color: #172317;
-    --bg-color: #fff;
-}
+    <style>
+      :root {
+        --container-color: #1a1e21;
+        --second-color: #2157ad;
+        --text-color: #172317;
+        --bg-color: #fff;
+      }
 
-body {
-    background-color: var(--container-color);
-    color: var(--text-color);
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-}
+      body {
+        background-color: var(--container-color);
+        color: var(--text-color);
+        font-family: "Arial", sans-serif;
+        margin: 0;
+      }
 
-.container {
-    background-color: var(--bg-color);
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 80px auto; /* Center the container vertically */
-    max-width: 700px; /* Set a maximum width */
-    padding: 80px;
-    text-align: center;
-}
+      .container {
+        background-color: var(--bg-color);
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 80px auto; /* Center the container vertically */
+        max-width: 700px; /* Set a maximum width */
+        padding: 80px;
+        text-align: center;
+      }
 
-h1 {
-    color: var(--second-color);
-}
+      h1 {
+        color: var(--second-color);
+      }
 
-label {
-    display: block;
-    margin: 15px 0 5px;
-}
+      label {
+        display: block;
+        margin: 15px 0 5px;
+      }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
 
-button {
-    background-color: var(--second-color);
-    color: var(--bg-color);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+      button {
+        background-color: var(--second-color);
+        color: var(--bg-color);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
 
-button:hover {
-    background-color: #183b77; /* Slightly darker shade on hover */
-}
+      button:hover {
+        background-color: #183b77; /* Slightly darker shade on hover */
+      }
 
-a {
-    color: var(--second-color);
-    text-decoration: none;
-}
+      a {
+        color: var(--second-color);
+        text-decoration: none;
+      }
 
-a:hover {
-    text-decoration: underline;
-}
-
+      a:hover {
+        text-decoration: underline;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <h1>Login</h1>
-        <form id="loginForm" action="/login" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+      <h1>Login</h1>
+      <form id="loginForm" action="/login" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required />
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
 
-            <button type="submit">Login</button>
-        </form>
+        <button type="submit">Login</button>
+      </form>
 
-        <p>Not a member yet? <a href="/register.html">Register</a></p>
+      <p>Not a member yet? <a href="/register.html">Register</a></p>
     </div>
-</body>
-<script> 
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginForm = document.getElementById("loginForm");
 
-    // Event listener for form submission
-    loginForm.addEventListener('submit', async (e) => {
+      // Event listener for form submission
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault(); // Prevent default form submission
 
-        const username = loginForm.querySelector('#username').value;
-        const password = loginForm.querySelector('#password').value;
+        const username = loginForm.querySelector("#username").value;
+        const password = loginForm.querySelector("#password").value;
 
         try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+          });
 
-            if (!response.ok) {
-                throw new Error('Invalid username or password');
-            }
+          if (!response.ok) {
+            throw new Error("Invalid username or password");
+          }
 
-            const responseData = await response.json();
-            
-            // Check user role and redirect accordingly
-            if (responseData.role === 'admin') {
-                window.location.href = '/admin.html'; // Redirect to admin page
-            } else {
-                window.location.href = '/index.html'; // Redirect to home page
-            }
+          const responseData = await response.json();
+
+          // Check user role and redirect accordingly
+          if (responseData.role === "admin") {
+            window.location.href = "/admin.html"; // Redirect to admin page
+          } else if (responseData.role === "journalist") {
+            window.location.href = "/journalist.html"; // Redirect to journalist page
+          } else if (responseData.role === "editor") {
+            window.location.href = "/editor.html"; // Redirect to editor page
+          } else {
+            window.location.href = "/index.html"; // Redirect to home page for other roles
+          }
         } catch (error) {
-            console.error('Error logging in:', error);
-            // Display error message to the user
+          console.error("Error logging in:", error);
+          // Display error message to the user
         }
+      });
     });
-});
-
-</script>
+  </script>
 </html>
